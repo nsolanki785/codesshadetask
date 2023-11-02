@@ -12,19 +12,21 @@ import { upadateData, deletePost } from './sliced/slicedData'
 
 
 function App() {
-  const postData = useSelector(state => state?.counter?.postData);
-  const [postGetdata,setGetPostdata] = useState(postData)
-  const sliceData = postData.slice(0,6);
+  const postGetdata = useSelector(state => state?.counter?.postData);
+  const postData = postGetdata ? postGetdata : []
+  // const [postGetdata,setGetPostdata] = useState(postData)
+  const sliceData = postData.length>0 ?  postData?.slice(0,6) : [] ;
   const [slicedData,setSlicedData] = useState([...sliceData]);
   const [startIndex,setStartindex] = useState(0);
   const [endIndex,setEndindex] = useState(6)
   const dispatch = useDispatch();
 
-  console.log("slicedData",postData);
+  console.log("slicedData",typeof postGetdata);
   
   useEffect(()=>{
     handleFetch()
-    const getdbdata = JSON.parse(localStorage.getItem("postData")).slice(0,6);
+    const DB = JSON.parse(localStorage.getItem("postData"))
+    const getdbdata = DB ? DB.slice(0,6) : [];
     setSlicedData(getdbdata)
     dispatch(upadateData())
   },[])
@@ -36,15 +38,14 @@ function App() {
 
     const handleFetch = () => {
         if (!JSON.parse(localStorage.getItem("postData"))) {
+          console.log("lll");
       axios({
         url:"https://jsonplaceholder.typicode.com/posts",
         method:"get"
       }).then((res)=>{
-     
-        localStorage.setItem("postData",res?.data)
-        //  setPostdata(res?.data)
-        //  setSlicedData(res?.data?.slice(0,6))
-        
+        localStorage.setItem("postData",JSON.stringify(res?.data));
+        postGetdata = [...res?.data]
+
       })
     }
     else {
@@ -54,7 +55,9 @@ function App() {
 
     
    const handleSliceddata = () => {
-    const filterData = postData.slice(startIndex,endIndex)
+    upadateData()
+    console.log("ff",postData);
+    const filterData = postData.slice(startIndex,endIndex);
     return filterData
    }
     
@@ -74,12 +77,16 @@ function App() {
      } 
 
      const handleDelete = (dd) => {
-      dispatch(deletePost(dd.id));
+      dispatch(deletePost(dd));
+       postData.filter((item)=>item.id != dd)
+      
       const Findex = postData.findIndex((item)=> item.id == dd)
       console.log("Findex",Findex);
+      upadateData()
       setStartindex(Findex)
       setEndindex(Findex+6)
      const mm=  handleSliceddata()
+     console.log("mm",mm)
      setSlicedData(mm)
    
     }
