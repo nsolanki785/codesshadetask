@@ -1,23 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-  postData: [],
-}
+const initialState =  []
+  
 
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    upadateData: (state) => {
-    const postData = JSON.parse(localStorage.getItem("postData"));
-      state.postData = postData?.length >0 ? [...postData] : []
+    upadateData: (state,action) => {
+      console.log("updateData",action);
+    // const postData = JSON.parse(localStorage.getItem("postData"));
+      return  action.payload 
     },
     deletePost: (state, action) => {
-      console.log("action",action);
+      
+      console.log("action",action,state);
       // state.postData =  
-      const db =state.postData.filter((item)=> item.id != action.payload)
-      localStorage.setItem("postData",JSON.stringify(db));
-      return state.postData.filter((item)=> item.id != action.payload)
+
+      return state.filter((item)=> item.id != action.payload)
+      // localStorage.setItem("postData",JSON.stringify(db));
+      // return db;
+      // return state.postData.filter((item)=> item.id != action.payload)
       
 
     },
