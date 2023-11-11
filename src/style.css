@@ -1,0 +1,47 @@
+.card-content {
+    height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.card-title {
+    height: 25px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.bg-color {
+    background-color:rgb(228 235 240);
+}
+
+.card-radius {
+    border-radius: 30px;
+}
+
+.card {
+    width: 90% !important;
+}
+
+.spacing {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.toggle-view  button {
+      border-color: #f0f0f0;
+      padding: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+}
+
+.grid {
+    border-top-left-radius: 10px ;
+    border-bottom-left-radius:10px ;
+}
+
+.list {
+    border-top-right-radius: 10px ;
+    border-bottom-right-radius:10px ;
+}
